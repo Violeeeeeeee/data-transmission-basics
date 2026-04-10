@@ -1,0 +1,57 @@
+ZESTAW ZADAŃ 2.
+
+Zadanie 2.1
+
+Należy wykonać dokładny szkic poniższych sygnałów dyskretnych (tzn. opisać osie, oraz wszystkie punkty charakterystyczne wykresu) (6 pkt.)
+
+a. $x(n)=\sum_{k=0}^{\infty}(-1)^{k}\delta(n-3k)$, gdzie $\delta$ jest funkcją delta-Diraca
+b. $x(n)=(-1)^{n}u(-n-4)$, gdzie $u(n)$ jest funkcją skoku jednostkowego Heaviside'a
+c. $x(n)=cos(\frac{\pi}{2}n)u(n+3)u(-n-5)$
+d. $x(n)=2^{n}\delta(n-4)$
+e. $x(n)=\sum_{k=0}^{\infty}4\delta(n-3k-1)$
+f. $x(n)=cos(\frac{\pi}{4})u(n)$
+
+Zadanie 2.2
+
+Dany jest dyskretny w dziedzinie czasu system LTI (liniowy, stacjonarny) opisywany zależnością (3 pkt.)
+
+$$
+y(n)=x(n-5)+\frac{1}{2}x(n-7)
+$$
+
+Należy wyznaczyć odpowiedź impulsową $h(n)$ systemu.
+
+Zadanie 2.3
+
+Dany jest dyskretny w dziedzinie czasu system LTI (liniowy, stacjonarny) opisywany zależnością
+$$
+y(n)=(-1)^{n}x(n)+2x(n-1)
+$$
+
+Wykonaj dokładny szkic sygnału wyjściowego $y(n)$ w przypadku, gdy na wejście podano sygnał $x(n)$ przedstawiony na poniższym wykresie
+
+![](zadanie23.png)
+
+
+Zadanie 2.4
+
+Wykres funkcji $x(t)$ przedstawiono na poniższym rysunku.
+
+![](zadanie24.png)
+
+Należy sporządzić wykresy funkcji
+
+(a) $x(2-t)$
+(b) $x(t-2)$
+(c) $x(2t+1)$
+(d) $x(1\frac{2}{3}-3t)$
+
+Zadanie 2.5
+
+Należy obliczyć energię i moc sygnału $x(1)$ przedstawionego na poniższym rysunku (4 pkt.)
+
+![](zadanie25.png)
+
+Zadanie 2.6
+
+Należy sporządzić wykres splotu funkcji $x(t)=tu(t)$ oraz $y(t)=u(t)$, gdzie $u(t)$ oznacza funkcję skoku jednostkowego. (10 pkt.)
