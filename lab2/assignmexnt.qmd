@@ -1,9 +1,9 @@
 ---
-title: "Lab 2"
-titlerunning: "Lab 2"
-author: Vladyslav Humeniuk"
-authorrunning: "Vladyslav Humeniuk"
-institute: "WSZIB"
+title: Lab 2
+titlerunning: Lab 2
+author: Vladyslav Humeniuk
+authorrunning: Vladyslav Humeniuk
+institute: ""
 format:
   pdf:
     documentclass: llncs
@@ -17,14 +17,7 @@ format:
 
 Należy wykonać dokładny szkic poniższych sygnałów dyskretnych (tzn. opisać osie, oraz wszystkie punkty charakterystyczne wykresu) (6 pkt.)
 
-a. $x(n)=\sum_{k=0}^{\infty}(-1)^{k}\delta(n-3k)$, gdzie $\delta$ jest funkcją delta-Diraca
-b. $x(n)=(-1)^{n}u(-n-4)$, gdzie $u(n)$ jest funkcją skoku jednostkowego Heaviside'a
-c. $x(n)=\cos(\frac{\pi}{2}n)u(n+3)u(-n-5)$
-d. $x(n)=2^{n}\delta(n-4)$
-e. $x(n)=\sum_{k=0}^{\infty}4\delta(n-3k-1)$
-f. $x(n)=\cos(\frac{\pi}{4})u(n)$
-
-### a
+### a.
 
 $k \ge 0$ funkcja delta $\delta(n-3k)$ przyjmuje wartość 1 tylko dla $n = 3k$. Amplituda w tych punktach wynosi naprzemiennie $1$ i $-1$. Zatem sygnał składa się z prążków w punktach $n \in \{0, 3, 6, 9, \dots\}$.
 
@@ -43,17 +36,17 @@ plt.stem(n, x, basefmt="black")
 plt.title(r"Discrete Signal $x(n) = \sum (-1)^k \delta(n-3k)$")
 plt.xlabel("n (discrete time)")
 plt.ylabel("x(n)")
-plt.xticks(n)
+plt.xticks(n)  # Force ticks at every integer
 plt.grid(True, linestyle='--', alpha=0.7)
-plt.savefig("plot_a.png")
+
+plt.show()
 ```
 
-### b
+### b.
 
 Funkcja skoku jednostkowego $u(-n-4)$ włącza się dla:
 
 $$-n - 4 \ge 0 \implies -n \ge 4 \implies n \le -4$$
-
 Sygnał "istnieje" tylko dla $n \in \{\dots, -6, -5, -4\}$. Amplituda wynosi $(-1)^n$.
 
 ```{python}
@@ -63,21 +56,23 @@ import matplotlib.pyplot as plt
 
 n = np.arange(-10, 4)
 x = np.zeros_like(n, dtype=float)
+
 valid_indices = n <= -4
 x[valid_indices] = (-1.0) ** n[valid_indices]
 
 plt.figure(figsize=(8, 4))
 plt.stem(n, x, basefmt="black")
+
 plt.title(r"Discrete signal $x(n) = (-1)^n u(-n-4)$")
 plt.xlabel("n (time)")
 plt.ylabel("x(n)")
 plt.xticks(n)
 plt.grid(True, linestyle='--', alpha=0.7)
-plt.savefig("plot_b.png")
+
 plt.show()
 ```
 
-### c
+### c.
 
 Analizując warunki funkcji skoku Heaviside'a:
 
@@ -92,21 +87,24 @@ import matplotlib.pyplot as plt
 
 n = np.arange(-10, 10)
 x = np.zeros_like(n, dtype=float)
+
 valid_indices = (n <= -5) & (n >= -3)
+
 x[valid_indices] = np.cos(np.pi / 2 * n[valid_indices])
 
 plt.figure(figsize=(8, 4))
 plt.stem(n, x, basefmt="black")
+
 plt.title(r"Discrete signal $x(n) = \cos(\frac{\pi}{2}n) u(n+3) u(-n-5)$")
 plt.xlabel("n (discrete time)")
 plt.ylabel("x(n)")
 plt.xticks(n)
 plt.grid(True, linestyle='--', alpha=0.7)
-plt.savefig("plot_c.png")
+
 plt.show()
 ```
 
-### d
+### d.
 
 Funkcja $\delta(n-4)$ jest równa 1 wyłącznie dla $n-4=0 \implies n=4$.
 Wartość sygnału dla $n=4$ wynosi:
@@ -118,21 +116,25 @@ $$x(4) = 2^4 \cdot 1 = 16$$
 import numpy as np
 import matplotlib.pyplot as plt
 
-n = np.arange(-2, 8)
+n = np.arange(-10, 10)
+
 x = np.zeros_like(n)
+
 valid_indices = (n == 4)
 x[valid_indices] = 2 ** 4
 
 plt.stem(n, x, basefmt="black")
-plt.title(r"Discrete Signal $x(n) = 2^n \delta(n-4)$")
+
+plt.title(r"Discrete Signal $x(n) = 2^n*\delta(n-4)$")
 plt.xlabel("n (discrete time)")
 plt.ylabel("x(n)")
-plt.xticks(n)
+plt.xticks(n)  # Force ticks at every integer
 plt.grid(True, linestyle='--', alpha=0.7)
-plt.savefig("plot_d.png")
+
+plt.show()
 ```
 
-### e
+### e.
 
 Delta Diraca jest aktywna, gdy argument wynosi 0:
 
@@ -144,21 +146,26 @@ Dla $k \ge 0$, niezerowe próbki (o stałej amplitudzie 4) znajdują się w punk
 import numpy as np
 import matplotlib.pyplot as plt
 
-n = np.arange(-2, 12)
+n = np.arange(-10, 10)
+
 x = np.zeros_like(n)
-valid_indices = (n >= 0) & ((n-1) % 3 == 0)
+
+valid_indices = (n>=0) & ((n-1)%3==0)
+k = n[valid_indices]//3
 x[valid_indices] = 4
 
 plt.stem(n, x, basefmt="black")
-plt.title(r"Discrete Signal $x(n) = \sum 4\delta(n-3k-1)$")
+
+plt.title(r"Discrete Signal $x(n) = \sum 4*\delta(n-3k-1)$")
 plt.xlabel("n (discrete time)")
 plt.ylabel("x(n)")
-plt.xticks(n)
+plt.xticks(n)  # Force ticks at every integer
 plt.grid(True, linestyle='--', alpha=0.7)
-plt.savefig("plot_e.png")
+
+plt.show()
 ```
 
-### f
+### f.
 
 Sygnał uaktywnia się dla $n \ge 0$. Wartość sygnału to stała:
 
@@ -169,19 +176,22 @@ $$x(n) = \cos\left(\frac{\pi}{4}\right) = \frac{\sqrt{2}}{2} \approx 0.707 \quad
 import numpy as np
 import matplotlib.pyplot as plt
 
-n = np.arange(-5, 10)
+n = np.arange(-10, 10)
 x = np.zeros_like(n, dtype=float)
+
 valid_indices = (n >= 0)
-x[valid_indices] = np.cos(np.pi / 4)
+
+x[valid_indices] = np.cos(np.pi / 4 * n[valid_indices])
 
 plt.figure(figsize=(8, 4))
 plt.stem(n, x, basefmt="black")
+
 plt.title(r"Discrete signal $x(n) = \cos(\frac{\pi}{4}) u(n)$")
 plt.xlabel("n (discrete time)")
 plt.ylabel("x(n)")
 plt.xticks(n)
 plt.grid(True, linestyle='--', alpha=0.7)
-plt.savefig("plot_f.png")
+
 plt.show()
 ```
 
@@ -189,36 +199,28 @@ plt.show()
 
 Dany jest dyskretny w dziedzinie czasu system LTI opisywany zależnością:
 
-$$
-y(n)=x(n-5)+\frac{1}{2}x(n-7)
-$$
-
+$$y(n)=x(n-5)+\frac{1}{2}x(n-7)$$
 Należy wyznaczyć odpowiedź impulsową $h(n)$ systemu.
 
 **Rozwiązanie:**
 Odpowiedź impulsowa $h(n)$ to reakcja systemu na wejściowy impuls jednostkowy, czyli $x(n) = \delta(n)$. Podstawiając to do równania różnicowego, otrzymujemy bezpośrednio:
 
-$$
-h(n) = \delta(n-5) + \frac{1}{2}\delta(n-7)
-$$
+$$h(n) = \delta(n-5) + \frac{1}{2}\delta(n-7)$$
 
 ## Zadanie
 
 Dany jest dyskretny w dziedzinie czasu system opisywany zależnością:
 
-$$
-y(n)=(-1)^{n}x(n)+2x(n-1)
-$$
-
-Wykonaj dokładny szkic sygnału wyjściowego $y(n)$ w przypadku, gdy na wejście podano sygnał $x(n)$ przedstawiony na poniższym wykresie.
-
-![](zadanie23.png)
+$$y(n)=(-1)^{n}x(n)+2x(n-1)$$
+Wykonaj dokładny szkic sygnału wyjściowego $y(n)$ w przypadku, gdy na wejście podano sygnał $x(n)$ przedstawiony na wykresie.
 
 **Rozwiązanie:**
 Z wykresu odczytujemy wartości sygnału wejściowego:
+
 $x(0)=1$, $x(1)=2$, $x(2)=3$, $x(3)=1$, natomiast dla pozostałych punktów $x(n)=0$.
 
 Obliczamy kolejne wartości $y(n)$:
+
 $$y(0) = (-1)^0 x(0) + 2x(-1) = 1(1) + 2(0) = 1$$
 $$y(1) = (-1)^1 x(1) + 2x(0) = -1(2) + 2(1) = 0$$
 $$y(2) = (-1)^2 x(2) + 2x(1) = 1(3) + 2(2) = 7$$
@@ -228,32 +230,27 @@ $$y(5) = (-1)^5 x(5) + 2x(4) = 0$$
 
 ## Zadanie
 
-Wykres funkcji $x(t)$ przedstawiono na poniższym rysunku.
+Wykres funkcji $x(t)$ (trójkąt asymetryczny). Należy sporządzić wykresy funkcji:
 
-![](zadanie24.png)
-
-Należy sporządzić wykresy funkcji:
-
-a. $x(2-t)$
+**a)** $x(2-t)$
 Sygnał ulega odbiciu lustrzanemu względem osi OY, a następnie przesunięciu o 2 jednostki w prawo: $x(2-t) = x(-(t-2))$.
 
-b. $x(t-2)$
+**b)** $x(t-2)$
 Sygnał ulega jedynie przesunięciu w czasie o 2 jednostki w prawo.
 
-c. $x(2t+1)$
+**c)** $x(2t+1)$
 Sygnał ulega kompresji osi czasu (dwukrotnemu zwężeniu) oraz przesunięciu w lewo o 0.5 jednostki: $x(2t+1) = x(2(t+0.5))$.
 
-d. $x(1\frac{2}{3}-3t)$
+**d)** $x(1\frac{2}{3}-3t)$
 Sygnał można zapisać jako $x(-3(t - \frac{5}{9}))$. Oznacza to odbicie lustrzane, trzykrotną kompresję w dziedzinie czasu i przesunięcie w prawo o $\frac{5}{9}$ jednostki.
 
 ## Zadanie
 
-Należy obliczyć energię i moc sygnału $x(t)$ przedstawionego na poniższym rysunku.
-
-![](zadanie25.png)
+Należy obliczyć energię i moc sygnału $x(t)$.
 
 **Rozwiązanie:**
 Sygnał jest okresowy, a jego okres wynosi $T = 2\pi$. Na przedziale jednego okresu sygnał można opisać jako:
+
 $$
 x(t) = \begin{cases}
 \sin(t), & t \in [0, \pi) \\
@@ -262,37 +259,71 @@ x(t) = \begin{cases}
 $$
 
 Każdy sygnał okresowy o niezerowej amplitudzie posiada nieskończoną całkowitą energię:
+
 $$E = \int_{-\infty}^{\infty} |x(t)|^2 dt = \infty$$
 
 Moc średnią obliczamy na przedziale jednego okresu:
+
 $$P = \frac{1}{T} \int_{0}^{T} |x(t)|^2 dt = \frac{1}{2\pi} \left[ \int_{0}^{\pi} \sin^2(t) dt + \int_{\pi}^{2\pi} (-0.5)^2 dt \right]$$
 
 Rozwiązujemy całki osobno. Wykorzystujemy wzór na kąt podwojony dla sinusa:
+
 $$\int_{0}^{\pi} \sin^2(t) dt = \int_{0}^{\pi} \frac{1-\cos(2t)}{2} dt = \left[ \frac{t}{2} - \frac{\sin(2t)}{4} \right]_{0}^{\pi} = \left( \frac{\pi}{2} - 0 \right) - (0) = \frac{\pi}{2}$$
 
 $$\int_{\pi}^{2\pi} (-0.5)^2 dt = \int_{\pi}^{2\pi} 0.25 dt = \left[ 0.25t \right]_{\pi}^{2\pi} = 0.25(2\pi - \pi) = \frac{\pi}{4}$$
 
 Podstawiamy do wzoru na moc:
+
 $$P = \frac{1}{2\pi} \left( \frac{\pi}{2} + \frac{\pi}{4} \right) = \frac{1}{2\pi} \left( \frac{3\pi}{4} \right) = \frac{3}{8}$$
 
 **Odpowiedź:** Energia sygnału wynosi $E = \infty$, a jego moc średnia to $P = \frac{3}{8}$.
 
 ## Zadanie
 
-Należy sporządzić wykres splotu funkcji $x(t)=tu(t)$ oraz $y(t)=u(t)$, gdzie $u(t)$ oznacza funkcję skoku jednostkowego.
+Należy sporządzić wykres splotu funkcji $x(t)=tu(t)$ oraz $y(t)=u(t)$, gdzie $u(t)$ oznacza funkcję skoku jednostkowego. (10 pkt.)
 
 **Rozwiązanie:**
 Z definicji splotu dwóch sygnałów:
+
 $$(x * y)(t) = \int_{-\infty}^{\infty} x(\tau)y(t-\tau) d\tau$$
 
-Podstawiając nasze funkcje:
+Podstawiając nasze funkcje $x(\tau) = \tau u(\tau)$ oraz $y(t-\tau) = u(t-\tau)$:
+
 $$(x * y)(t) = \int_{-\infty}^{\infty} \tau u(\tau) u(t-\tau) d\tau$$
 
-Funkcja $u(\tau)$ jest równa 1 dla $\tau \ge 0$, co ogranicza dolną granicę całkowania. Funkcja $u(t-\tau)$ jest równa 1 dla $t - \tau \ge 0 \implies \tau \le t$, co ogranicza górną granicę całkowania.
-Dla $t < 0$ przedziały te nie mają części wspólnej, więc splot wynosi 0.
+* Funkcja $u(\tau)$ jest równa 1 dla $\tau \ge 0$, co ogranicza dolną granicę całkowania.
+* Funkcja $u(t-\tau)$ jest równa 1 dla $t - \tau \ge 0 \implies \tau \le t$, co ogranicza górną granicę całkowania.
 
+Dla $t < 0$ przedziały te nie mają części wspólnej, więc splot wynosi 0.
 Dla $t \ge 0$ całka przyjmuje postać:
+
 $$\int_{0}^{t} \tau d\tau = \left[ \frac{\tau^2}{2} \right]_{0}^{t} = \frac{t^2}{2}$$
 
 Ostatecznie, splot obu funkcji to rampa paraboliczna:
+
 $$(x * y)(t) = \frac{1}{2}t^2 u(t)$$
+
+```{python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generujemy wektor czasu ciągłego
+t = np.linspace(-2, 5, 400)
+
+# Funkcja splotu: 0.5 * t^2 dla t >= 0, w przeciwnym razie 0
+y = np.where(t >= 0, 0.5 * t**2, 0)
+
+plt.figure(figsize=(8, 4))
+plt.plot(t, y, 'b-', linewidth=2, label=r'$(x * y)(t) = \frac{1}{2}t^2 u(t)$')
+plt.fill_between(t, y, where=(t>=0), alpha=0.1, color='blue')
+
+plt.title("Wykres splotu sygnałów")
+plt.xlabel("t (czas)")
+plt.ylabel("(x * y)(t)")
+plt.axhline(0, color='black', linewidth=1)
+plt.axvline(0, color='black', linewidth=1)
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.legend()
+plt.show()
+```
