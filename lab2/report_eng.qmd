@@ -1,0 +1,67 @@
+---
+format:
+  pdf:
+    documentclass: llncs
+    classoption: runningheads
+    pdf-engine: pdflatex
+    cite-method: natbib
+    biblio-style: splncs04
+    natbiboptions: "numbers,sort,compress,sectionbib"
+    number-sections: true
+    number-depth: 3
+bibliography: bibliography.bib
+---
+
+\title{Lab 9: Fast Fourier Transform (FFT)}
+\titlerunning{Lab 9: FFT Analysis}
+
+\author{Vladyslav Humeniuk}
+\authorrunning{Vladyslav Humeniuk}
+\institute{}
+\maketitle
+
+## Introduction {#sec-intro}
+
+The objective of this laboratory was the empirical verification of the Fast Fourier Transform (FFT) for signal analysis and noise reduction using the GNU Scientific Library (GSL). The Discrete Fourier Transform (DFT) allows for the decomposition of a time-domain signal into its constituent frequencies, facilitating operations such as filtering that are difficult to perform directly in the time domain. This report details the implementation of forward and inverse transforms to analyze spectral components and remediate stochastic noise.
+
+## Methodology
+
+The computational tasks were executed in six stages according to the laboratory requirements:
+
+1. **Signal Generation**: Synthesis of a 256-element array representing a sum of four cosines with varying periods and amplitudes.
+2. **Spectral Analysis**: Extraction of the frequency spectrum using `gsl_fft_real_radix2_transform`.
+3. **Noisy Signal Simulation**: Generation of a cosine wave corrupted by random white noise.
+4. **Noise Spectrum Analysis**: FFT application to visualize the frequency distribution of the interference.
+5. **Frequency Filtering**: Implementation of a magnitude-based threshold filter to zero out noise components.
+6. **Inverse Transform**: Signal reconstruction using `gsl_fft_halfcomplex_radix2_inverse`.
+
+## Results
+
+### Signal Synthesis and Spectral Analysis
+The initial signal was constructed as a composite of four cosine waves. Time-domain visualization shows a complex periodic structure with high-frequency ripples (Fig. \ref{fig-signal}). Frequency analysis (Fig. \ref{fig-spectrum}) successfully identifies four distinct peaks at indices corresponding to the input frequencies ($k = 2, 8, 16, 64$), with magnitudes reflecting the defined amplitudes.
+
+::: {layout-nw="[1,1]"}
+![Generated composite cosine signal.](1_signal.pdf){#fig-signal}
+
+![Frequency spectrum of the composite signal.](2_spectrum.pdf){#fig-spectrum}
+:::
+
+### Stochastic Noise and Filtering
+The introduction of random noise resulted in a jagged time-domain function where the primary oscillation was partially obscured (Fig. \ref{fig-noisy-sig}). In the frequency domain, this interference manifested as a broad noise floor across nearly all frequencies (Fig. \ref{fig-noisy-spec}). By applying a magnitude threshold of 50, the noise floor was eliminated while preserving the primary signal peak (Fig. \ref{fig-filtered-spec}).
+
+::: {layout-nw="[[1,1], [1]]"}
+![Signal corrupted by random white noise.](3_noisy_signal.pdf){#fig-noisy-sig}
+
+![Spectrum of the noisy signal showing wide-band interference.](4_noisy_spectrum.pdf){#fig-noisy-spec}
+
+![Filtered spectrum after thresholding (values < 50 zeroed).](5_filtered_spectrum.pdf){#fig-filtered-spec}
+:::
+
+### Reconstructed Signal
+The inverse transform produced a highly smoothed wave (Fig. \ref{fig-inversion}). This reconstructed signal successfully recovered the original periodicity and was confined to the expected amplitude range, demonstrating the efficiency of FFT-based low-pass filtering.
+
+![Reconstructed signal after noise removal and inverse FFT.](6_inverse_signal.pdf){#fig-inversion fig-pos='h'}
+
+## Conclusion
+
+The laboratory results confirm that the Fast Fourier Transform is a robust method for analyzing multi-component signals and implementing noise-reduction filters [@gsl_fft_doc]. By utilizing adaptive spectral thresholding, stochastic interference can be effectively isolated from the primary data [@fft_theory]. Reconstructing the filtered signal confirms that frequency-domain manipulation preserves the essential periodic characteristics of the original wave while removing high-frequency disturbances.
